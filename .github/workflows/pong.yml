@@ -26,7 +26,7 @@ jobs:
           persist-credentials: false
       - name: download
         run: |
-         curl https://github.com/PhilippBleimund/Struktog/releases/latest/download/build.tar.xz ./latest.tar.xz \
+         wget https://github.com/PhilippBleimund/Struktog/releases/latest/download/build.tar.xz ./latest.tar.xz \
          && \
          tar -xf ./latest.tar.xz
         working-directory: ${{ github.workspace }}
