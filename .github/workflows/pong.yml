@@ -38,6 +38,4 @@ jobs:
         run: |
           rm ./build.tar.xz
         working-directory: ${{ github.workspace }}
-      - uses: actions4git/setup-git@v1
-      - run: git add .
-      - run: git push origin
+      - uses: stefanzweifel/git-auto-commit-action@v5
