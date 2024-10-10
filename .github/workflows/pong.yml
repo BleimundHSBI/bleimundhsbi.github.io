@@ -38,4 +38,7 @@ jobs:
         run: |
           rm ./build.tar.xz
         working-directory: ${{ github.workspace }}
-      - uses: stefanzweifel/git-auto-commit-action@v5
+      - uses: actions4git/setup-git@v1
+      - run: git add .
+      - run: git remote set-url origin https://BleimundHSBI:${{ secrets.ACCESS_TOKEN }}@github.com:BleimundHSBI/bleimundhsbi.github.io.git
+      - run: git push origin
