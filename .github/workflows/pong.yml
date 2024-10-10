@@ -26,11 +26,11 @@ jobs:
           persist-credentials: false
       - name: download
         run: |
-         wget https://github.com/PhilippBleimund/Struktog/releases/latest/download/build.tar.xz ./latest.tar.xz
+         wget https://github.com/PhilippBleimund/Struktog/releases/latest/download/build.tar.xz
         working-directory: ${{ github.workspace }}
       - name: unpack
         run: |
-          tar -xf ./latest.tar.xz
+          tar -xf ./build.tar.xz
         working-directory: ${{ github.workspace }}
       - name: Commit and Push Changes
         run: |
