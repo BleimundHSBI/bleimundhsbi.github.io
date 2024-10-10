@@ -26,9 +26,9 @@ jobs:
           persist-credentials: false
       - name: download
         run: |
-         curl https://github.com/PhilippBleimund/Struktog/latest ./latest.tar.gz \
+         curl https://github.com/PhilippBleimund/Struktog/latest ./latest.tar.xz \
          && \
-         tar -xvzf ./latest.tar.gz
+         tar -xf ./latest.tar.xz
         working-directory: ${{ github.workspace }}
       - name: Commit and Push Changes
         run: |
