@@ -18,10 +18,12 @@ jobs:
           -u ${{ secrets.ACCESS_TOKEN }} \
           --data '{"event_type": "pong", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
   download-release:
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - name: Checkout 🛎️
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           persist-credentials: false
       - name: download
@@ -36,7 +38,6 @@ jobs:
         run: |
           rm ./build.tar.xz
         working-directory: ${{ github.workspace }}
-      - name: Commit & Push changes
-        uses: Andro999b/push@v1.3
-        with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
+      - uses: actions4git/setup-git@v1
+      - run: git add .
+      - run: git push origin
