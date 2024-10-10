@@ -1,0 +1,44 @@
+name: Remote Dispatch Action Responder
+
+
+on: [repository_dispatch]
+
+jobs:
+  ping-pong:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Event Information
+        run: |
+          echo "Event '${{ github.event.action }}' received from '${{ github.event.client_payload.repository }}'"
+      - name: PONG - Dispatch response to received PING
+        if: github.event.action == 'ping'
+        run: |
+          curl -X POST https://api.github.com/repos/PhilippBleimund/Struktog/dispatches \
+          -H 'Accept: application/vnd.github.everest-preview+json' \
+          -u ${{ secrets.ACCESS_TOKEN }} \
+          --data '{"event_type": "pong", "client_payload": { "repository": "'"$GITHUB_REPOSITORY"'" }}'
+  download-release:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: download
+        run: |
+         wget https://github.com/PhilippBleimund/Struktog/releases/latest/download/build.tar.xz
+        working-directory: ${{ github.workspace }}
+      - name: unpack
+        run: |
+          tar -xf ./build.tar.xz
+        working-directory: ${{ github.workspace }}
+      - name: remove
+        run: |
+          rm ./build.tar.xz
+        working-directory: ${{ github.workspace }}
+      - uses: actions4git/setup-git@v1
+      - run: git add .
+      - run: git remote set-url origin https://BleimundHSBI:${{ secrets.ACCESS_TOKEN }}@github.com:BleimundHSBI/bleimundhsbi.github.io.git
+      - run: git push origin
